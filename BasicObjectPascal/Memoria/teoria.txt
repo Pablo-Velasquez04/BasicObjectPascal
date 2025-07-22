@@ -1,0 +1,143 @@
+En Object Pascal, un record es una estructura de datos que:
+
+   - Agrupa varios campos bajo un solo nombre.
+
+   - Es por valor, no por referencia como una clase.
+
+   - No necesita Create ni Free, se maneja automático en la memoria del stack.
+
+   - No tiene constructor ni destructor (en su forma clásica).
+
+En resumen:
+Un record es como un struct en C o una clase simple en Java, pero sin lógica ni métodos 
+(aunque en versiones modernas sí puede, pero nos enfocamos en lo básico).
+
+📌 Estructura en Java:
+class Persona {
+    String nombre;
+    int edad;
+    double altura;
+}
+
+En Java, cuando haces:
+Persona p = new Persona();
+p.nombre = "Juan";
+
+Estás creando una referencia en el heap. Java usa new y luego accedes a través de un puntero 
+implícito (la referencia p).
+
+📌 Estructura en Pascal:
+type
+  TPersona = record
+    nombre: string;
+    edad: Integer;
+    altura: Double;
+  end;
+
+Y luego usas así:
+var
+  persona1: TPersona;
+begin
+  persona1.nombre := 'Juan';
+  persona1.edad := 25;
+  persona1.altura := 1.75;
+end.
+
+Ahí estamos usando una variable de tipo TPersona, no una referencia. Esa variable vive directamente 
+en el stack, no en el heap como en Java.
+
+📍 Diferencias esenciales:
+
+| Concepto              | Java (`class`)    | Pascal (`record`)                  |
+| --------------------- | ----------------- | ---------------------------------- |
+| Instanciación         | `new Clase()`     | Solo declarar la variable          |
+| Vive en...            | Heap (referencia) | Stack (valor directo)              |
+| Constructor necesario | Sí                | No                                 |
+| Se libera con...      | GC (automático)   | Automáticamente al salir del scope |
+| Métodos y lógica      | Permitido         | No (en básico)                     |
+| Herencia              | Sí                | No                                 |
+| Puntero/referencia    | Sí                | No, a menos que uses `^TPersona`   |
+
+
+¿Entonces es como instanciar una clase?
+Más o menos. En Object Pascal:
+
+    - No estás “instanciando” como tal.
+
+    - Solo declaras una variable de tipo record.
+
+    - Esa variable tiene ya asignado espacio en memoria (en el stack).
+
+    - Le asignas valores directamente a sus campos.
+
+EJEMPLO: 
+var
+  p: TPersona;
+begin
+  p.nombre := 'Ana';
+  p.edad := 21;
+
+No hay Create, no hay puntero, no hay Free. ¡Nada de eso!
+
+
+📎 EJEMPLO COMPLETO COMPARADO
+🔸 Java:
+class Carro {
+    String modelo;
+    int anio;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Carro c = new Carro();
+        c.modelo = "Toyota";
+        c.anio = 2020;
+    }
+}
+
+🔸 Pascal:
+type
+  TCarro = record
+    modelo: string;
+    anio: Integer;
+  end;
+
+var
+  c: TCarro;
+begin
+  c.modelo := 'Toyota';
+  c.anio := 2020;
+end;
+
+🤔 ¿Y si quiero pasarlo a un procedimiento?
+Como los records son por valor, si los pasás directo, se hace una copia:
+
+procedure imprimirCarro(car: TCarro);
+begin
+  WriteLn('Modelo: ', car.modelo);
+  WriteLn('Año: ', car.anio);
+end;
+
+
+Si queremos modificarlo dentro del procedimiento, debés pasar por referencia:
+procedure modificarCarro(var car: TCarro);
+begin
+  car.modelo := 'Mazda';
+end;
+
+
+En Java siempre pasamos referencias a objetos. En Pascal, por defecto se pasa una copia a menos que digamos var.
+
+
+🎯 Conclusión resumida:
+    - Un record es como una clase sin métodos y sin constructor.
+
+    - Se almacena por valor, no por referencia.
+
+    - No se instancia con new ni .Create, solo se declara como variable.
+
+    - Se libera automáticamente, no necesita .Free.
+
+    - Si lo pasás a un procedimiento, se copia (a menos que uses var).
+
+    - Ideal para representar datos simples o temporales.
