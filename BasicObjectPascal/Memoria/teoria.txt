@@ -19,7 +19,7 @@ class Persona {
     double altura;
 }
 
-En Java, cuando haces:
+En Java, cuando hacemos:
 Persona p = new Persona();
 p.nombre = "Juan";
 
