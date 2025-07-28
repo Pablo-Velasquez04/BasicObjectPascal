@@ -1,6 +1,7 @@
 program _tPersona;
 
 {$mode objfpc}{$H+}
+
 //Declaramos la clase
 type
     TPersona = class

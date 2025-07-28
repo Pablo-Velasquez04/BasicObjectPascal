@@ -15,3 +15,7 @@ type
         procedure Metodo1;
         function Metodo2(parametro: Integer): Boolena;
     end;
+
+begin
+
+end.
